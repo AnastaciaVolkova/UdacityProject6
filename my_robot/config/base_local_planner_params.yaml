@@ -2,13 +2,15 @@ controller_frequency: 10
 
 TrajectoryPlannerROS:
   max_vel_x: 0.5
-  min_vel_x: -0.1
-  max_vel_theta: 0.7
-  min_in_place_vel_theta: 0.314
-
-  acc_lim_theta: 3.14
-  acc_lim_x: 2.0
-  acc_lim_y: 2.0
+  min_vel_x: 0.1
+  
+  max_vel_theta: 0.25
+  min_vel_theta: 0.04
+  
+  min_in_place_vel_theta: 0.04
+  
+  xy_goal_tolerance: 0.2
+  yaw_goal_tolerance: 0.0873 # 5 grad tolerance
 
   sim_time: 1.0
 
