@@ -27,7 +27,7 @@ int main(int argc, char** argv){
   // Initialize the pick_objects node
   ros::init(argc, argv, "pick_objects_node");
   ros::NodeHandle n;
-  string serv_name = "/add_markers/manip_marker";
+  string serv_name = "/add_markers/ManipMarker";
 
   ros::ServiceClient client = n.serviceClient<add_markers::ManipMarker>(serv_name);
   add_markers::ManipMarker srv;
@@ -89,7 +89,7 @@ int main(int argc, char** argv){
         message_iss << "Failed to call service " << serv_name;
         message = message_iss.str();
         ROS_ERROR(message.c_str());
-      } else 
+      } else
         ROS_INFO(srv.response.msg_feedback.c_str());
     } else {
           if (ac.getState()==actionlib::SimpleClientGoalState::StateEnum::PENDING)
