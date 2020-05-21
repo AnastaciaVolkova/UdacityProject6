@@ -1,0 +1,7 @@
+float64 x
+float64 y
+bool to_add
+---
+string msg_feedback
+
+
