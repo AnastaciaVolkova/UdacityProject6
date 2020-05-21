@@ -22,7 +22,7 @@ bool handle_marker_manip(add_markers::ManipMarker::Request& req, add_markers::Ma
         marker.action = visualization_msgs::Marker::DELETE;
 
     marker.pose.position.x = req.x;
-    marker.pose.position.y = req.y; 
+    marker.pose.position.y = req.y;
     marker.pose.orientation.w = 1.0;
 
     marker.scale.x = 0.5;
@@ -33,7 +33,7 @@ bool handle_marker_manip(add_markers::ManipMarker::Request& req, add_markers::Ma
     marker.color.g = 0.701f;
     marker.color.b = 0.921f;
     marker.color.a = 0.8;
-    
+
     marker.lifetime = ros::Duration();
     while (marker_pub.getNumSubscribers() < 1)
     {
@@ -53,23 +53,9 @@ int main( int argc, char** argv )
 {
     ros::init(argc, argv, "add_markers_node");
     ros::NodeHandle n;
-    ros::ServiceServer service = n.advertiseService("/add_markers/manip_marker", handle_marker_manip);
+    ros::ServiceServer service = n.advertiseService("/add_markers/ManipMarker", handle_marker_manip);
     marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
     ROS_INFO("Ready to handle requests");
     ros::spin();
     return 0;
-/*        
-    
-
-    marker_pub.publish(marker);
-    ros::Duration(5).sleep();
-    marker.action = visualization_msgs::Marker::DELETE;
-    marker_pub.publish(marker);
-    ros::Duration(5).sleep();
-    marker.action = visualization_msgs::Marker::ADD;
-    marker.pose.position.x = 0.0;
-    marker.pose.position.y = 3.5;
-    marker.pose.orientation.w = 1.0;
-    marker_pub.publish(marker);
-    r.sleep();*/
 }
