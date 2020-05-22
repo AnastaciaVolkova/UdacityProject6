@@ -24,6 +24,18 @@ int main(int argc, char** argv){
   ros::init(argc, argv, "pick_objects_node");
   ros::NodeHandle n;
 
+  bool use_marker = true;
+  if (argc>1)
+      if (strcmp(argv[1], "1") == 0)
+          use_marker = true;
+      else if (strcmp(argv[1], "0") == 0)
+          use_marker = false;
+      else{
+          ROS_ERROR("Wrong command line");
+          return -1;
+      }
+
+
   // Set service name to manipulate with marker through add_markers_node.
   string serv_name = "/add_markers/ManipMarker";
 
@@ -31,7 +43,8 @@ int main(int argc, char** argv){
   ros::ServiceClient client = n.serviceClient<add_markers::ManipMarker>(serv_name);
 
   // Wait for service availability.
-  ros::service::waitForService(serv_name, -1);
+  if (use_marker)
+    ros::service::waitForService(serv_name, -1);
 
   // Declare service to request from add_markers_node.
   add_markers::ManipMarker srv;
@@ -61,8 +74,10 @@ int main(int argc, char** argv){
     // Add a marker if goal is pickup.
     if (goal_it.name_ == "pickup"){
       srv.request.to_add = true;
-      if (!client.call(srv))
-          ROS_ERROR("Failed to call service %s", serv_name.c_str());
+      if (use_marker){
+        if (!client.call(srv))
+            ROS_ERROR("Failed to call service %s", serv_name.c_str());
+      }
     }
 
     // Define a position and orientation for the robot to reach (define goal).
@@ -89,8 +104,10 @@ int main(int argc, char** argv){
         srv.request.to_add = false;
       else
         srv.request.to_add = true;
-      if (!client.call(srv))
-        ROS_ERROR("Failed to call service %s", serv_name.c_str());
+      if (use_marker) {
+        if (!client.call(srv))
+            ROS_ERROR("Failed to call service %s", serv_name.c_str());
+      }
     } else {
           if (ac.getState()==actionlib::SimpleClientGoalState::StateEnum::PENDING)
               ROS_INFO("PENDING");
