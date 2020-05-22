@@ -25,7 +25,7 @@ int main(int argc, char** argv){
   ros::NodeHandle n;
 
   bool use_marker = true;
-  if (argc>1)
+  if (argc>1){
       if (strcmp(argv[1], "1") == 0)
           use_marker = true;
       else if (strcmp(argv[1], "0") == 0)
@@ -34,6 +34,7 @@ int main(int argc, char** argv){
           ROS_ERROR("Wrong command line");
           return -1;
       }
+  }
 
 
   // Set service name to manipulate with marker through add_markers_node.
