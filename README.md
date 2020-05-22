@@ -10,6 +10,7 @@ sudo apt-get install ros-melodic-navigation
 - test_slam.sh
 - test_navigation.sh
 - pick_objects.sh
+- add_marker.sh
 
 #### <a name="test_slam"></a>test_slam.sh
 Script does the following:
@@ -32,5 +33,8 @@ Script does the following:
 **The script is used to manually set goal and navigate to it.**
 
 #### pick_objects.sh
-Script does the same as test_navigation.sh. According to it, it runs node _pick_objects_node_ from package _pick_objects_ with command line argument 0 (argument 0 means don't use _add_markers_node_). 
+Script does the same as test_navigation.sh. In addition, it runs node _pick_objects_node_ from package _pick_objects_ with command line argument 0 (argument 0 means don't use _add_markers_node_). 
 Node _pick_objects_node_ constructs an object of SimpleActionClient, with help of which the node can communicate with robot's action. To this object the node sends a goal. After reaching the first goal, the node waits for 5 seconds. Afterwords, the node sends the second goal to SimpleActionClient object and waits for the robot reaches the goal.
+
+#### add_marker.sh
+Script does the same as _test_navigation.sh_. In addition, I  run node _add_markers_node_ from package _add_markers_ with commad line _-9.0 -5.0 -4.0 3.0_. Through command line I pass positions of two goals (x1, y1, x2, y2). The node analyzes command line arguments, set marker properties and publishes topic _visualization_marker_  to _rviz_.
