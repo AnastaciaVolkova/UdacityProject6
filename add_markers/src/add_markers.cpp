@@ -8,12 +8,8 @@ using namespace std;
 
 ros::Publisher marker_pub;
 
-// Handle for sevice /add_markers/ManipMarker.
-bool handle_marker_manip(add_markers::ManipMarker::Request& req, add_markers::ManipMarker::Response& res){
-    ros::Rate r(1);
-
-    // Initialize marker.
-    visualization_msgs::Marker marker;
+// Initialize marker.
+void initialize_marker(visualization_msgs::Marker& marker){
     marker.header.frame_id = "/map";
     marker.header.stamp = ros::Time::now();
     marker.ns = "basic_shapes";
@@ -26,6 +22,17 @@ bool handle_marker_manip(add_markers::ManipMarker::Request& req, add_markers::Ma
     marker.color.g = 0.701f;
     marker.color.b = 0.921f;
     marker.color.a = 0.8;
+}
+
+// Handle for sevice /add_markers/ManipMarker.
+bool handle_marker_manip(add_markers::ManipMarker::Request& req, add_markers::ManipMarker::Response& res){
+    ros::Rate r(1);
+
+    // Declare message for topic visualization_marker.
+    visualization_msgs::Marker marker;
+
+    // Initialize marker.
+    initialize_marker(marker);
 
     // Set action for marker according to request.
     if (req.to_add)
@@ -46,7 +53,7 @@ bool handle_marker_manip(add_markers::ManipMarker::Request& req, add_markers::Ma
     while (marker_pub.getNumSubscribers() < 1)
     {
         if (!ros::ok())
-            return 0;
+            return -1;
         ROS_WARN_ONCE("Please create a subscriber to the marker");
         sleep(1);
     }
@@ -57,6 +64,9 @@ bool handle_marker_manip(add_markers::ManipMarker::Request& req, add_markers::Ma
     return true;
 };
 
+// Create typedef for goal coordinate.
+using GoalPoint=float[2];
+
 int main( int argc, char** argv )
 {
     ros::init(argc, argv, "add_markers_node");
@@ -64,6 +74,53 @@ int main( int argc, char** argv )
     ros::ServiceServer service = n.advertiseService("/add_markers/ManipMarker", handle_marker_manip);
     marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
     ROS_INFO("Ready to handle requests");
-    ros::spin();
+
+    if (argc == 1){
+        ros::spin(); // Wait for requests.
+    }
+    else if (argc == 5){
+        GoalPoint goals[2];
+        // Initialize goals with command line arguments.
+        for (int i = 0; i < 2; i++){
+            goals[i][0] = stof(argv[2*i+1]);
+            goals[i][1] = stof(argv[2*i+2]);
+        }
+
+        // Wait for visualization_marker topic subscribers
+        while (marker_pub.getNumSubscribers() < 1)
+        {
+            if (!ros::ok())
+                return -1;
+            ROS_WARN_ONCE("Please create a subscriber to the marker");
+            sleep(1);
+        }
+
+        // Declare message for topic visualization_marker.
+        visualization_msgs::Marker marker;
+
+        // Initialize marker.
+        initialize_marker(marker);
+
+        // Add sequentially markers for 2 goals.
+        for (int i = 0; i < 2; i++){
+            marker.pose.position.x = goals[i][0];
+            marker.pose.position.y = goals[i][1];
+            marker.pose.orientation.w = 1.0;
+            if (i == 0){
+                // First goal should disappear after 5 seconds.
+                marker.action = visualization_msgs::Marker::ADD;
+                marker.lifetime = ros::Duration(5);
+                marker_pub.publish(marker);
+                ros::Duration(5).sleep();
+            } else {
+                marker.action = visualization_msgs::Marker::ADD;
+                marker.lifetime = ros::Duration();
+                marker_pub.publish(marker);
+            }
+        }
+    } else {
+        ROS_ERROR("Wrong command line");
+        return -1;
+    }
     return 0;
 }
