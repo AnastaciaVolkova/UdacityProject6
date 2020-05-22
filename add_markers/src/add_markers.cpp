@@ -111,7 +111,7 @@ int main( int argc, char** argv )
                 marker.action = visualization_msgs::Marker::ADD;
                 marker.lifetime = ros::Duration(5);
                 marker_pub.publish(marker);
-                ros::Duration(5).sleep();
+                ros::Duration(10).sleep();
             } else {
                 marker.action = visualization_msgs::Marker::ADD;
                 marker.lifetime = ros::Duration();
