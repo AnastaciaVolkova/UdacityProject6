@@ -24,7 +24,7 @@ Map (wohnung.pgm and wohnung.yaml) is saved in ./my_robot/map/
 #### test_navigation
 Script does the following:
 
-- Launches world.launch_ (from package _my_robot_). <p>See description from test_slam.sh</p>
+- Launches _world.launch_ (from package _my_robot_). <p>See description from test_slam.sh</p>
 - Launches _amcl.launch_. <p>The file starts _map_server_ node, _amcl_ from package _navigation_  node, _move_base_ from _navigation_ package node. Node _amcl_ realizes probabilistic localization of a robot in 2D. To track the pose of a robot against a known map, it uses Adaptive (or KLD-sampling) Monte Carlo algorithm. _move_base_ is a node which controls the robot movements, so that it can reaches the goal (so the goal should be provided). It uses components global_planner, global_costmap, local_planner, local_costmap, recovery_behaviours for creating a paths.</p>
 - Runs _map_server_ node, which provides a map to _move_base_.
 
