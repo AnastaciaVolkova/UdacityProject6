@@ -11,6 +11,7 @@ sudo apt-get install ros-melodic-navigation
 - test_navigation.sh
 - pick_objects.sh
 - add_marker.sh
+- home_service.sh
 
 #### <a name="test_slam"></a>test_slam.sh
 Script does the following:
@@ -23,7 +24,7 @@ Script does the following:
 The information, which was gathered by _slam_gmapping_, is provided by topic _map (nav_msgs/OccupancyGrid)_ to _map_server_. Node map_server creates a bitmap represantation and yaml file, which describes parameters of map.
 Map (wohnung.pgm and wohnung.yaml) is saved in ./my_robot/map/
 
-#### test_navigation
+#### test_navigation.sh
 Script does the following:
 
 - Launches _world.launch_ (from package _my_robot_). <p>See description from test_slam.sh</p>
@@ -38,3 +39,6 @@ Node _pick_objects_node_ constructs an object of SimpleActionClient, with help o
 
 #### add_marker.sh
 Script does the same as _test_navigation.sh_. In addition, I  run node _add_markers_node_ from package _add_markers_ with commad line _-9.0 -5.0 -4.0 3.0_. Through command line I pass positions of two goals (x1, y1, x2, y2). The node analyzes command line arguments, set marker properties and publishes topic _visualization_marker_  to _rviz_.
+
+#### home_service.sh
+Script does the same as _test_navigation.sh_. In addition, I run the nodes, which I create: _pick_objects_node_ and _add_markers_node_.  They are started without arguments. It means that they communicate with each other. Node _pick_objects_node_ sends two navigation goals to _move_base_ node via SimpleActionClient. After the first goal is sent to _move_base_ node, node _pick_objects_node_ sends request to _add_markers_node_ node. The request asks _add_markers_node_ to show the marker on the place of first goal. Node _pick_objects_node_ waits until the robot reaches the first goal. Afterwards _pick_objects_node_ sends request to delete marker (node _add_markers_node_ handles this request) at the place of first node. Node _pick_objects_node_ makes the robot to wait 5 seconds. Afterwards the second goal is sent to _move_base_ by node _pick_objects_node_. When second goal is reached, _pick_objects_node_ sends request to _add_markers_node_ to show marker at the place of second goal.
