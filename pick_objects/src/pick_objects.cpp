@@ -132,6 +132,7 @@ int main(int argc, char** argv){
     if (goal_it.name_ == "pickup")
         ros::Duration(5).sleep();
   }
+  ros::spin(); // Wait for requests.
   return 0;
 }
 
