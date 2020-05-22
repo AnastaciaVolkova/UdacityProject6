@@ -6,7 +6,7 @@ localization system for a robot should be installed:
 sudo apt-get install ros-melodic-navigation
 
 ## Descirption
-###Scripts
+### Scripts
 - [test_slam.sh](#test_slam)
 - [test_navigation.sh](#test_navigation)
 
@@ -15,10 +15,7 @@ Script does the following:
 
 - <details><summary>launches _world.launch_ (from package _my_robot_)</summary>
 <p>
-Launches environment, which I created with gazebo. This is a model of my appartment (_wohnung.world_).
-Loads my robot, which I created in  Unified Robotic Description Format (URDF) (_my_robot.xacro_).
-Launches nodes, which publish state of robot and joint states.
-Launches rviz, a 3D visualization tool for ROS.
+Launches environment, which I created with gazebo. This is a model of my appartment (_wohnung.world_). Loads my robot, which I created in  Unified Robotic Description Format (URDF) (_my_robot.xacro_). Launches nodes, which publish state of robot and joint states. Launches rviz, a 3D visualization tool for ROS.
 </p>
 </details>
 - <details> <summary>launches _slam_gmapping_pr2.launch_ (from package _slam_gmapping_)</summary>
