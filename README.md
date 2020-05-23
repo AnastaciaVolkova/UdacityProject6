@@ -114,3 +114,5 @@ The most interesting topics (publish/subcribed) :
 - _/cmd_vel_ is published by _move_base_ node to make robot drive;
 - _/my_robot/laser/scan_, _/odom_, _/tf_ are published by _gazebo_ to _amcl_ and _gmapping_ nodes (slam and navigation);
 Plugins  _libgazebo_ros_diff_drive.so_, _libgazebo_ros_laser.so_ are used for laser and robot movement features.
+
+[Robot navigates](https://www.youtube.com/watch?v=d1Vnkl_OvZs&t=12s) 
