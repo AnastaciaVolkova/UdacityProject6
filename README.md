@@ -45,3 +45,5 @@ Script does the same as _test_navigation.sh_. In addition, I run the nodes, whic
 ### Significant nodes
 #### slam_gmapping
 This node implements OpenSlam's Gmapping with usage of Rao-Blackwellized particle filter. I use the node to build the map, with help of laser and pose data of the robot (the node subscribes to _tf_ and _scan_ topics). The 2-D occupancy grid map I retrieve with help of _map_server_ node and _map_ topic.
+#### amcl
+_amcl_ node provides probabilistic localization in 2D. To track the robot's pose inside known map, which I get with a help of _gmapping_ node, the _amcl_ node implements the adaptive (or KLD-sampling) Monte Carlo localization approach. Inputs for the node are a laser-based map, laser scans, and transform messages. Output is pose estimation. 
