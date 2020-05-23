@@ -70,7 +70,14 @@ I create this node in order to sequentially send two goals. Node _pickup_objects
 
 - Work without _add_markers_node_ node. See description of this mode in [pick_objects.sh](#pick_objects.sh) section.
 - Work with _add_markers_node_. The service requests are sent to the _add_markers_node_ to show or delete markers at pickup or drop off goals.
-
+To run without communication with _add_markers_node_ node.
+<pre>
+rosrun pick_objects pick_objects_node 0
+</pre>
+To run with communication with _add_markers_node_ node.
+<pre>
+rosrun pick_objects pick_objects_node [1]
+</pre>
 #### add markers_node
 I create this node to add markers. Node _add_markers_node_ has two modes:
 
@@ -83,3 +90,14 @@ According to the task the following protocol is implemented:
 2. Hide the marker once my robot reach the pickup zone.
 3. Wait 5 seconds to simulate a pickup.
 4. Show the marker at the drop off zone once my robot reaches it.
+
+To run without communication with _pick_objects_node_ node.
+<pre>
+rosrun add_markers add_markers_node x1 y1 x2 y2
+</pre>
+x1, y1, x2, y2 - floating point coordinates of marker.
+
+To run with communication with _pick_objects_node_ node.
+<pre>
+rosrun add_markers add_markers_node
+</pre>
