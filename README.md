@@ -101,3 +101,10 @@ To run with communication with _pick_objects_node_ node.
 <pre>
 rosrun add_markers add_markers_node
 </pre>
+#### rviz
+This is a visualization tool. The most interesting topics, to which rviz subscribes:
+
+- _visualization_marker_ is published by _add_makers_node_ node to show marker;
+- _/move_base/NavfnROS/plan_ is published by _move_base_ node. It is a trajectory path, which is built by global planner, to reach a goal;
+- _/map_ is published by _map_server_ node;
+- /move_base/global_costmap/costmap is published by _move_base_ node is very useful to see global costmap;
