@@ -37,7 +37,7 @@ Script does the following:
 Script does the same as test_navigation.sh. In addition, it runs node _pick_objects_node_ from package _pick_objects_ with command line argument 0 (argument 0 means don't use _add_markers_node_). 
 Node _pick_objects_node_ constructs an object of SimpleActionClient, with help of which the node can communicate with robot's action. To this object the node sends a goal. After reaching the first goal, the node waits for 5 seconds. Afterwords, the node sends the second goal to SimpleActionClient object and waits for the robot reaches the goal.
 
-#### add_marker.sh
+#### <a name="add_marker.sh"></a>add_marker.sh
 Script does the same as _test_navigation.sh_. In addition, I  run node _add_markers_node_ from package _add_markers_ with command line _-9.0 -5.0 -4.0 3.0_. Through command line I pass positions of two goals (x1, y1, x2, y2). The node analyzes command line arguments, set marker properties and publishes topic _visualization_marker_  to _rviz_.
 
 #### home_service.sh
@@ -70,3 +70,16 @@ I create this node in order to sequentially send two goals. Node _pickup_objects
 
 - Work without _add_markers_node_ node. See description of this mode in [pick_objects.sh](#pick_objects.sh) section.
 - Work with _add_markers_node_. The service requests are sent to the _add_markers_node_ to show or delete markers at pickup or drop off goals.
+
+#### add markers_node
+I create this node to add markers. Node _add_markers_node_ has two modes:
+
+- Work without communication with _pickup_objects_node_ node. See description of this mode in [add_marker.sh](#add_marker.sh) section.
+- Work with communication with _pickup_objects_node_ node. In this case _add_marker_node_ node handles requests to add/delete markers at definite places. These requests are sent by _pickup_objects_node node. 
+
+According to the task the following protocol is implemented:
+
+1. Initially show the marker at the pickup zone.
+2. Hide the marker once my robot reach the pickup zone.
+3. Wait 5 seconds to simulate a pickup.
+4. Show the marker at the drop off zone once my robot reaches it.
