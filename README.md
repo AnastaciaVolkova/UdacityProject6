@@ -33,7 +33,7 @@ Script does the following:
 
 **The script is used to manually set goal and navigate to it.**
 
-#### pick_objects.sh
+#### <a name="pick_objects.sh"></a>pick_objects.sh
 Script does the same as test_navigation.sh. In addition, it runs node _pick_objects_node_ from package _pick_objects_ with command line argument 0 (argument 0 means don't use _add_markers_node_). 
 Node _pick_objects_node_ constructs an object of SimpleActionClient, with help of which the node can communicate with robot's action. To this object the node sends a goal. After reaching the first goal, the node waits for 5 seconds. Afterwords, the node sends the second goal to SimpleActionClient object and waits for the robot reaches the goal.
 
@@ -64,3 +64,9 @@ Node _move_base_ consists of the following components:
 - _local_planner_ implements Trajectory Rollout and Dynamic Window for local robot navigation on a plane. Inputs of component are plan to follow and a costmap. The output is velocity commands for a mobile base;
 - _global_costmap_ is used for creating long-term plans. Stores information about obstacles;
 - _local_costmap_ is used for local planning and obstacle avoidance. Stores information about obstacles;
+
+#### pickup_objects_node
+I create this node in order to sequentially send two goals. Node _pickup_objects_node_ has two modes:
+
+- Work without _add_markers_node_ node. See description of this mode in [pick_objects.sh](#pick_objects.sh) section.
+- Work with _add_markers_node_. The service requests are sent to the _add_markers_node_ to show or delete markers at pickup or drop off goals.
