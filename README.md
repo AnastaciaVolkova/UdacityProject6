@@ -47,3 +47,20 @@ Script does the same as _test_navigation.sh_. In addition, I run the nodes, whic
 This node implements OpenSlam's Gmapping with usage of Rao-Blackwellized particle filter. I use the node to build the map, with help of laser and pose data of the robot (the node subscribes to _tf_ and _scan_ topics). The 2-D occupancy grid map I retrieve with help of _map_server_ node and _map_ topic.
 #### amcl
 _amcl_ node provides probabilistic localization in 2D. To track the robot's pose inside known map, which I get with a help of _gmapping_ node, the _amcl_ node implements the adaptive (or KLD-sampling) Monte Carlo localization approach. Inputs for the node are a laser-based map, laser scans, and transform messages. Output is pose estimation. 
+#### move_base
+The node _move_base_  creates an action for robot to achieve the given goal. Inputs for the node are the following:
+
+- tf/Message from _amcl_ node;
+- nav_msgs/Odometry from _amcl_ node;
+- geometry_msgs/PoseStamped from _rviz_ or _pick_objects_ nodes;
+- nav_msgs/GetMap (navigation stack setup) from _map_server_ node;
+- sensor_msgs/LaserScan from _gazebo_ node; 
+
+The output of the node is cmd_vel topic, which is aimed for base controller.
+
+Node _move_base_ consists of the following components:
+
+- _global_planner_ implements fast, interpolated global planner for navigation. Global Dynamic Window Approach is used;
+- _local_planner_ implements Trajectory Rollout and Dynamic Window for local robot navigation on a plane. Inputs of component are plan to follow and a costmap. The output is velocity commands for a mobile base;
+- _global_costmap_ is used for creating long-term plans. Stores information about obstacles;
+- _local_costmap_ is used for local planning and obstacle avoidance. Stores information about obstacles;
