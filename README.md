@@ -5,6 +5,10 @@ Course Project from Robotics Software Engineer - Path planning and navigation.
 localization system for a robot should be installed:
 sudo apt-get install ros-melodic-navigation
 
+in case of ros noetic:
+sudo apt-get install ros-noetic-openslam-gmapping
+sudo apt-get install ros-noetic-navigation
+
 ## Description
 ### Scripts
 - test_slam.sh
